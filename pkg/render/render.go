@@ -2,6 +2,7 @@ package render
 
 import (
 	"bytes"
+	"go-monitoring/models"
 	"go-monitoring/pkg/config"
 	"html/template"
 	"log"
@@ -16,8 +17,12 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
 // RenderTemplate using html templates
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 
 	var tc map[string]*template.Template
 
@@ -36,10 +41,15 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	buf := new(bytes.Buffer)
 
-	_ = t.Execute(buf, nil)
+	td = AddDefaultData(td)
+
+	err := t.Execute(buf, td)
+	if err != nil {
+		log.Println(err)
+	}
 
 	// render the template
-	_, err := buf.WriteTo(w)
+	_, err = buf.WriteTo(w)
 	if err != nil {
 		log.Println("Error writting template to browser", err)
 	}
