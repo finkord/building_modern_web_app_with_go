@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"go-monitoring/pkg/config"
-	"go-monitoring/pkg/handlers"
-	"go-monitoring/pkg/render"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/finkord/building_modern_web_app_with_go/pkg/config"
+	"github.com/finkord/building_modern_web_app_with_go/pkg/handlers"
+	"github.com/finkord/building_modern_web_app_with_go/pkg/render"
 
 	"github.com/alexedwards/scs/v2"
 )

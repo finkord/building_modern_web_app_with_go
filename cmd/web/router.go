@@ -1,9 +1,10 @@
 package main
 
 import (
-	"go-monitoring/pkg/config"
-	"go-monitoring/pkg/handlers"
 	"net/http"
+
+	"github.com/finkord/building_modern_web_app_with_go/pkg/config"
+	"github.com/finkord/building_modern_web_app_with_go/pkg/handlers"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -24,6 +25,10 @@ func router(app *config.AppConfig) http.Handler {
 
 	mux.Get("/", handlers.Repo.Home)
 	mux.Get("/about", handlers.Repo.About)
+
+	fileServer := http.FileServer(http.Dir("./static/"))
+
+	mux.Handle("/static/*", http.StripPrefix("/static/", fileServer))
 
 	return mux
 }

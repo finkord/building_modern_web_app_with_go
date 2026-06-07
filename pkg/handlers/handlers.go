@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"go-monitoring/models"
-	"go-monitoring/pkg/config"
-	"go-monitoring/pkg/render"
+	"github.com/finkord/building_modern_web_app_with_go/models"
+	"github.com/finkord/building_modern_web_app_with_go/pkg/config"
+	"github.com/finkord/building_modern_web_app_with_go/pkg/render"
 	"net/http"
 )
 

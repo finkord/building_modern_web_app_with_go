@@ -2,8 +2,8 @@ package render
 
 import (
 	"bytes"
-	"go-monitoring/models"
-	"go-monitoring/pkg/config"
+	"github.com/finkord/building_modern_web_app_with_go/models"
+	"github.com/finkord/building_modern_web_app_with_go/pkg/config"
 	"html/template"
 	"log"
 	"net/http"

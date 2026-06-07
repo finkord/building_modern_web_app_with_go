@@ -1,4 +1,4 @@
-module go-monitoring
+module github.com/finkord/building_modern_web_app_with_go
 
 go 1.25.0
 
