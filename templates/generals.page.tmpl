@@ -72,8 +72,11 @@
         </form>
         `;
         attention.custom({
-            title: 'Choose your dates',
             msg: html,
+            title: 'Choose your dates',
+            callback: function (result) {
+                console.log("called");
+            }
         });
     })
 </script>
