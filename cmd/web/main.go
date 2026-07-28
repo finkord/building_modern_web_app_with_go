@@ -31,6 +31,8 @@ func main() {
 	session.Cookie.SameSite = http.SameSiteLaxMode
 	session.Cookie.Secure = app.InProduction
 
+	app.Session = session
+
 	tc, err := render.CreateTemplateCache()
 
 	if err != nil {
@@ -38,24 +40,22 @@ func main() {
 	}
 
 	app.TemplateCache = tc
-
 	app.UseCache = false
 
-	app.Session = session
-
 	repo := handlers.NewRepo(&app)
-
 	handlers.NewHandlers(repo)
 
 	render.NewTemplates(&app)
 
-	fmt.Printf("Starting server on port %s\n", portNumber)
+	fmt.Println(fmt.Sprintf("Staring application on port %s", portNumber))
 
 	srv := &http.Server{
 		Addr:    portNumber,
-		Handler: router(&app),
+		Handler: routes(&app),
 	}
 
-	log.Fatal(srv.ListenAndServe())
-
+	err = srv.ListenAndServe()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
