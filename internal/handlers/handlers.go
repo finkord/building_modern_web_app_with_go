@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/finkord/building_modern_web_app_with_go/internal/config"
+	"github.com/finkord/building_modern_web_app_with_go/internal/forms"
 	"github.com/finkord/building_modern_web_app_with_go/internal/models"
 	"github.com/finkord/building_modern_web_app_with_go/internal/render"
 )
@@ -56,6 +57,13 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 // Reservation renders the make a reservation page and displays form
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{})
+}
+
+// PostReservation handles the posting of a reservation
+func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{
+		Form: forms.New(nil),
+	})
 }
 
 // Generals renders the room page
