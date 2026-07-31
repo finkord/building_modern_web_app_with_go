@@ -3,8 +3,8 @@ package main
 import (
 	"net/http"
 
-	"github.com/finkord/building_modern_web_app_with_go/pkg/config"
-	"github.com/finkord/building_modern_web_app_with_go/pkg/handlers"
+	"github.com/finkord/building_modern_web_app_with_go/internal/config"
+	"github.com/finkord/building_modern_web_app_with_go/internal/handlers"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
