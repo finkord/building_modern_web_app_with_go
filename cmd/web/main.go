@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/finkord/building_modern_web_app_with_go/internal/config"
 	"github.com/finkord/building_modern_web_app_with_go/internal/handlers"
+	"github.com/finkord/building_modern_web_app_with_go/internal/helpers"
 	"github.com/finkord/building_modern_web_app_with_go/internal/models"
 	"github.com/finkord/building_modern_web_app_with_go/internal/render"
 
@@ -20,6 +22,9 @@ const portNumber = ":8080"
 var app config.AppConfig
 
 var session *scs.SessionManager
+
+var infoLog *log.Logger
+var errorLog *log.Logger
 
 // main is the main function
 func main() {
@@ -48,6 +53,12 @@ func run() error {
 	// Change this to true in production
 	app.InProduction = false
 
+	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	app.InfoLog = infoLog
+
+	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	app.ErrorLog = errorLog
+
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
@@ -68,6 +79,7 @@ func run() error {
 
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)
+	helpers.NewHelpers(&app)
 
 	render.NewTemplates(&app)
 
