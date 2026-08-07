@@ -15,13 +15,13 @@ func NewHelpers(a *config.AppConfig) {
 	app = a
 }
 
-func clientError(w http.ResponseWriter, status int) {
+func ClientError(w http.ResponseWriter, status int) {
 	app.InfoLog.Printf("client error with status %d", status)
 	http.Error(w, http.StatusText(status), status)
 
 }
 
-func serverError(w http.ResponseWriter, err error) {
+func ServerError(w http.ResponseWriter, err error) {
 	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
 	app.ErrorLog.Println(trace)
 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
