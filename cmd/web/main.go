@@ -8,6 +8,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/finkord/building_modern_web_app_with_go/internal/driver"
+
 	"github.com/finkord/building_modern_web_app_with_go/internal/config"
 	"github.com/finkord/building_modern_web_app_with_go/internal/handlers"
 	"github.com/finkord/building_modern_web_app_with_go/internal/helpers"
@@ -29,10 +31,11 @@ var errorLog *log.Logger
 // main is the main function
 func main() {
 
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.SQL.Close()
 
 	srv := &http.Server{
 		Addr:    portNumber,
@@ -45,7 +48,7 @@ func main() {
 	}
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 
 	// what am i going to store in my session
 	gob.Register(models.Reservation{})
@@ -67,17 +70,25 @@ func run() error {
 
 	app.Session = session
 
+	log.Println("Connecting to database...")
+	db, err := driver.ConnectSQL("host=localhost port=5432 user=postgres password=postgres dbname=bookings")
+	if err != nil {
+		log.Fatal("Cannot connect to database", err)
+	}
+
+	log.Println("Connected to database")
+
 	tc, err := render.CreateTemplateCache()
 
 	if err != nil {
 		log.Println("Cannot create template cache")
-		return err
+		return nil, err
 	}
 
 	app.TemplateCache = tc
 	app.UseCache = false
 
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)
 	helpers.NewHelpers(&app)
 
@@ -85,5 +96,5 @@ func run() error {
 
 	fmt.Printf("Starting server on port %s\n", portNumber)
 
-	return nil
+	return db, nil
 }
