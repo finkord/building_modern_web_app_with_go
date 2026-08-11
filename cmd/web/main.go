@@ -52,6 +52,10 @@ func run() (*driver.DB, error) {
 
 	// what am i going to store in my session
 	gob.Register(models.Reservation{})
+	gob.Register(models.User{})
+	gob.Register(models.Room{})
+	gob.Register(models.Restriction{})
+	gob.Register(models.RoomRestriction{})
 
 	// Change this to true in production
 	app.InProduction = false
@@ -92,7 +96,7 @@ func run() (*driver.DB, error) {
 	handlers.NewHandlers(repo)
 	helpers.NewHelpers(&app)
 
-	render.NewTemplates(&app)
+	render.NewRenderer(&app)
 
 	fmt.Printf("Starting server on port %s\n", portNumber)
 
