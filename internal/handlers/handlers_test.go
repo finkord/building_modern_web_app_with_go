@@ -40,6 +40,9 @@ var theTests = []struct {
 		{key: "last_name", value: "Smith"},
 		{key: "email", value: "me@here.com"},
 		{key: "phone", value: "123-456-7890"},
+		{key: "start_date", value: "2020-01-01"},
+		{key: "end_date", value: "2020-01-02"},
+		{key: "room_id", value: "1"},
 	}, http.StatusOK},
 }
 
