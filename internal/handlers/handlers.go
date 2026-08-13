@@ -159,12 +159,22 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 
 // Generals renders the room page
 func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, r, "generals.page.tmpl", &models.TemplateData{})
+	stringMap := make(map[string]string)
+	stringMap["room_id"] = "1"
+
+	render.Template(w, r, "generals.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+	})
 }
 
 // Majors renders the room page
 func (m *Repository) Majors(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, r, "majors.page.tmpl", &models.TemplateData{})
+	stringMap := make(map[string]string)
+	stringMap["room_id"] = "2"
+
+	render.Template(w, r, "majors.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+	})
 }
 
 // Availability renders the search availability page
@@ -322,6 +332,7 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) 
 	})
 }
 
+// ChooseRoom takes URL parameter id and redirects to make reservation
 func (m *Repository) ChooseRoom(w http.ResponseWriter, r *http.Request) {
 	roomID, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
@@ -336,6 +347,35 @@ func (m *Repository) ChooseRoom(w http.ResponseWriter, r *http.Request) {
 	}
 
 	res.RoomID = roomID
+
+	m.App.Session.Put(r.Context(), "reservation", res)
+
+	http.Redirect(w, r, "/make-reservation", http.StatusSeeOther)
+}
+
+// BookRoom takes URL parameters s, e, id and calls the rendering method
+func (m *Repository) BookRoom(w http.ResponseWriter, r *http.Request) {
+	roomID, _ := strconv.Atoi(r.URL.Query().Get("id"))
+	sd := r.URL.Query().Get("s")
+	ed := r.URL.Query().Get("e")
+
+	layout := "2006-01-02"
+	startDate, _ := time.Parse(layout, sd)
+	endDate, _ := time.Parse(layout, ed)
+
+	var res models.Reservation
+
+	room, err := m.DB.GetRoomByID(roomID)
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	res.Room.RoomName = room.RoomName
+
+	res.RoomID = roomID
+	res.StartDate = startDate
+	res.EndDate = endDate
 
 	m.App.Session.Put(r.Context(), "reservation", res)
 
