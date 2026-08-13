@@ -7,8 +7,9 @@ import (
 	"github.com/finkord/building_modern_web_app_with_go/internal/models"
 )
 
-func TestDefaultData(t *testing.T) {
+func TestAddDefaultData(t *testing.T) {
 	var td models.TemplateData
+
 	r, err := getSession()
 	if err != nil {
 		t.Error(err)
@@ -19,7 +20,7 @@ func TestDefaultData(t *testing.T) {
 	result := AddDefaultData(&td, r)
 
 	if result.Flash != "123" {
-		t.Errorf("Expected flash to be '123' got %s", result.Flash)
+		t.Error("flash value of 123 not found in session")
 	}
 }
 
@@ -41,17 +42,17 @@ func TestRenderTemplate(t *testing.T) {
 
 	err = Template(&ww, r, "home.page.tmpl", &models.TemplateData{})
 	if err != nil {
-		t.Error("error rendering template to browser")
+		t.Error("error writing template to browser")
 	}
 
 	err = Template(&ww, r, "non-existent.page.tmpl", &models.TemplateData{})
 	if err == nil {
-		t.Error("error rendering non-existent template to browser")
+		t.Error("rendered template that does not exist")
 	}
 }
+
 func getSession() (*http.Request, error) {
 	r, err := http.NewRequest("GET", "/some-url", nil)
-
 	if err != nil {
 		return nil, err
 	}

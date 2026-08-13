@@ -2,15 +2,16 @@ package render
 
 import (
 	"encoding/gob"
+
+	"github.com/alexedwards/scs/v2"
+	"github.com/finkord/building_modern_web_app_with_go/internal/config"
+	"github.com/finkord/building_modern_web_app_with_go/internal/models"
+
 	"log"
 	"net/http"
 	"os"
 	"testing"
 	"time"
-
-	"github.com/alexedwards/scs/v2"
-	"github.com/finkord/building_modern_web_app_with_go/internal/config"
-	"github.com/finkord/building_modern_web_app_with_go/internal/models"
 )
 
 var session *scs.SessionManager
@@ -18,10 +19,10 @@ var testApp config.AppConfig
 
 func TestMain(m *testing.M) {
 
-	// what am i going to store in my session
+	// what am I going to put in the session
 	gob.Register(models.Reservation{})
 
-	// Change this to true in production
+	// change this to true when in production
 	testApp.InProduction = false
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
@@ -43,8 +44,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-type myWriter struct {
-}
+type myWriter struct{}
 
 func (tw *myWriter) Header() http.Header {
 	var h http.Header

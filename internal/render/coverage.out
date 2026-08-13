@@ -1,7 +1,7 @@
 mode: set
-github.com/finkord/building_modern_web_app_with_go/internal/render/render.go:22.40,24.2 1 1
+github.com/finkord/building_modern_web_app_with_go/internal/render/render.go:22.39,24.2 1 1
 github.com/finkord/building_modern_web_app_with_go/internal/render/render.go:27.84,33.2 5 1
-github.com/finkord/building_modern_web_app_with_go/internal/render/render.go:36.105,39.18 2 1
+github.com/finkord/building_modern_web_app_with_go/internal/render/render.go:36.99,39.18 2 1
 github.com/finkord/building_modern_web_app_with_go/internal/render/render.go:39.18,42.3 1 0
 github.com/finkord/building_modern_web_app_with_go/internal/render/render.go:42.8,44.3 1 1
 github.com/finkord/building_modern_web_app_with_go/internal/render/render.go:46.2,47.9 2 1
