@@ -15,6 +15,7 @@ import (
 	"github.com/finkord/building_modern_web_app_with_go/internal/render"
 	"github.com/finkord/building_modern_web_app_with_go/internal/repository"
 	"github.com/finkord/building_modern_web_app_with_go/internal/repository/dbrepo"
+	"github.com/go-chi/chi"
 )
 
 // Repo the repository used by the handlers
@@ -261,4 +262,24 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) 
 	render.Template(w, r, "reservation-summary.page.tmpl", &models.TemplateData{
 		Data: data,
 	})
+}
+
+func (m *Repository) ChooseRoom(w http.ResponseWriter, r *http.Request) {
+	roomID, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	res, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
+	if !ok {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	res.RoomID = roomID
+
+	m.App.Session.Put(r.Context(), "reservation", res)
+
+	http.Redirect(w, r, "/make-reservation", http.StatusSeeOther)
 }
