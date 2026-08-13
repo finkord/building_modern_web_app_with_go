@@ -22,13 +22,15 @@ func (m *testDBRepo) InsertRoomRestriction(res models.RoomRestriction) error {
 
 // SearchAvailabilityByRoomID checks if a room is available by dates
 func (m *testDBRepo) SearchAvailabilityByRoomID(start, end time.Time, roomID int) (bool, error) {
-	return true, nil
+	return false, nil
 }
 
 func (m *testDBRepo) SearchAvailabilityForAllRooms(start, end time.Time) ([]models.Room, error) {
-	return nil, nil
+	var rooms []models.Room
+	return rooms, nil
 }
 
 func (m *testDBRepo) GetRoomByID(id int) (models.Room, error) {
-	return models.Room{}, nil
+	var room models.Room
+	return room, nil
 }
