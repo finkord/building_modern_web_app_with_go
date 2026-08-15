@@ -12,7 +12,7 @@
                     <table class="text-danger">{{.}}</table>
                     {{ end }}
                     <input class="form-control 
-                            {{ with .Form.Errors.Get " email" }} is-invalid {{ end }}" id="email" autocomplete="off"
+                            {{ with .Form.Errors.Get "email" }} is-invalid {{ end }}" id="email" autocomplete="off"
                         type='text' name='email' value="" required>
                 </div>
 
@@ -22,7 +22,7 @@
                     <table class="text-danger">{{.}}</table>
                     {{ end }}
                     <input class="form-control 
-                            {{ with .Form.Errors.Get " password" }} is-invalid {{ end }}" id="password" autocomplete="off"
+                            {{ with .Form.Errors.Get "password" }} is-invalid {{ end }}" id="password" autocomplete="off"
                         type='password' name='password' value="" required>
                 </div>
                 <hr>

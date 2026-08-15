@@ -31,7 +31,7 @@ func Auth(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if !helpers.IsAuthenticated(r) {
 			session.Put(r.Context(), "error", "You must be logged in to access this page")
-			http.Redirect(w, r, "/user/login", http.StatusTemporaryRedirect)
+			http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 			return
 		}
 		next.ServeHTTP(w, r)

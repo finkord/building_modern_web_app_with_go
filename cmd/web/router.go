@@ -40,5 +40,10 @@ func routes() http.Handler {
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))
 
+	mux.Route("/admin", func(r chi.Router) {
+		r.Use(Auth)
+		r.Get("/dashboard", handlers.Repo.AdminDashboard)
+	})
+
 	return mux
 }

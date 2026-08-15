@@ -483,7 +483,7 @@ func (m *Repository) PostShowLogin(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		m.App.Session.Put(r.Context(), "error", "can't parse form")
-		http.Redirect(w, r, "/user/login", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 		return
 	}
 
@@ -503,7 +503,7 @@ func (m *Repository) PostShowLogin(w http.ResponseWriter, r *http.Request) {
 	id, _, err := m.DB.Authenticate(email, password)
 	if err != nil {
 		m.App.Session.Put(r.Context(), "error", "invalid credentials")
-		http.Redirect(w, r, "/user/login", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 		return
 	}
 
@@ -518,8 +518,14 @@ func (m *Repository) PostShowLogin(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
+// Logout logs a user out
 func (m *Repository) Logout(w http.ResponseWriter, r *http.Request) {
-	m.App.Session.Destroy(r.Context())
+	_ = m.App.Session.Destroy(r.Context())
+	_ = m.App.Session.RenewToken(r.Context())
 	m.App.Session.Put(r.Context(), "flash", "You have been logged out")
-	http.Redirect(w, r, "/login", http.StatusSeeOther)
+	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+}
+
+func (m *Repository) AdminDashboard(w http.ResponseWriter, r *http.Request) {
+	render.Template(w, r, "admin-dashboard.page.tmpl", &models.TemplateData{})
 }
