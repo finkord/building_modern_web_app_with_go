@@ -1,0 +1,4 @@
+drop_column {
+    table = "reservations"
+    column = "processed"
+}
