@@ -7,13 +7,16 @@ import (
 	"html/template"
 	"net/http"
 	"path/filepath"
+	"time"
 
 	"github.com/finkord/building_modern_web_app_with_go/internal/config"
 	"github.com/finkord/building_modern_web_app_with_go/internal/models"
 	"github.com/justinas/nosurf"
 )
 
-var functions = template.FuncMap{}
+var functions = template.FuncMap{
+	"humanDate": HumanDate,
+}
 
 var app *config.AppConfig
 var pathToTemplates = "./templates"
@@ -21,6 +24,13 @@ var pathToTemplates = "./templates"
 // NewRenderer sets the config for the template package
 func NewRenderer(a *config.AppConfig) {
 	app = a
+}
+
+// HumanDate formats a time.Time as a human readable date
+// {{humanDate .MyDate}}
+func HumanDate(t time.Time) string {
+	layout := "Jan 2, 2006"
+	return t.Format(layout)
 }
 
 // AddDefaultData adds default data to the template data
