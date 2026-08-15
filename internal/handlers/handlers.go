@@ -134,6 +134,13 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	roomName, err := m.DB.GetRoomByID(roomID)
+	if err != nil {
+		m.App.Session.Put(r.Context(), "error", "can't get room!")
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
 	reservation := models.Reservation{
 		FirstName: r.Form.Get("first_name"),
 		LastName:  r.Form.Get("last_name"),
@@ -142,6 +149,7 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		StartDate: startDate,
 		EndDate:   endDate,
 		RoomID:    roomID,
+		Room:      roomName,
 	}
 
 	form := forms.New(r.PostForm)
@@ -197,10 +205,11 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		reservation.EndDate.Format("2006-01-02"))
 
 	msg := models.MailData{
-		To:      reservation.Email,
-		From:    "me@bombo.com",
-		Subject: "Reservation Confirmation",
-		Content: htmlMessage,
+		To:       reservation.Email,
+		From:     "me@bombo.com",
+		Subject:  "Reservation Confirmation",
+		Content:  htmlMessage,
+		Template: "basic.html",
 	}
 
 	m.App.MailChan <- msg
@@ -214,10 +223,11 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		reservation.EndDate.Format("2006-01-02"))
 
 	msg = models.MailData{
-		To:      "me@bombo.com",
-		From:    "me@bombo.com",
-		Subject: "New Reservation Notification",
-		Content: htmlMessage,
+		To:       "me@bombo.com",
+		From:     "me@bombo.com",
+		Subject:  "New Reservation Notification",
+		Content:  htmlMessage,
+		Template: "basic.html",
 	}
 
 	m.App.MailChan <- msg
