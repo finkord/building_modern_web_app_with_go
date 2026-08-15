@@ -34,6 +34,8 @@ func routes() http.Handler {
 	mux.Get("/reservation-summary", handlers.Repo.ReservationSummary)
 
 	mux.Get("/user/login", handlers.Repo.ShowLogin)
+	mux.Get("/user/logout", handlers.Repo.Logout)
+	mux.Post("/user/login", handlers.Repo.PostShowLogin)
 
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))
