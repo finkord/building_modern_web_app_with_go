@@ -38,6 +38,8 @@ func main() {
 	defer db.SQL.Close()
 
 	defer close(app.MailChan)
+
+	fmt.Println("Starting mail listener...")
 	listenForMail()
 
 	srv := &http.Server{

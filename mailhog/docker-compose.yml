@@ -1,0 +1,11 @@
+services:
+  mailhog:
+    build: .
+    container_name: mailhog
+    ports:
+      - "1025:1025" # SMTP server
+      - "8025:8025" # Web UI
+
+# docker compose up -d
+# docker compose -f mailhog/docker-compose.yml up -d
+# docker compose down

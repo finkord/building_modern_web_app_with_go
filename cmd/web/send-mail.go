@@ -28,12 +28,13 @@ func sendMsg(m models.MailData) {
 	client, err := server.Connect()
 	if err != nil {
 		errorLog.Println(err)
+		return
 	}
 	email := mail.NewMSG()
 	email.SetFrom(m.From)
 	email.AddTo(m.To)
 	email.SetSubject(m.Subject)
-	email.SetBody(mail.TextHTML, "Hello, <strong>Go</strong>!")
+	email.SetBody(mail.TextHTML, m.Content)
 
 	err = email.Send(client)
 	if err != nil {
