@@ -62,26 +62,21 @@ function Prompt() {
             msg = "",
             title = "",
             showConfirmButton = true,
+            showCancelButton = true,
         } = c;
 
         const { value: result } = await Swal.fire({
             icon: icon,
             title: title,
             html: msg,
-            backdrop: false,
+            backdrop: true,
             focusConfirm: false,
-            showCancelButton: true,
+            showCancelButton: c.showCancelButton !== undefined ? c.showCancelButton : showCancelButton,
             showConfirmButton: showConfirmButton,
             willOpen: () => {
                 if (c.willOpen !== undefined) {
                     c.willOpen();
                 }
-            },
-            preConfirm: () => {
-                return [
-                    document.getElementById('start').value,
-                    document.getElementById('end').value
-                ]
             },
             didOpen: () => {
                 if (c.didOpen !== undefined) {
