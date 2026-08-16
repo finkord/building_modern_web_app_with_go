@@ -645,6 +645,9 @@ func (m *Repository) AdminReservationsCalendar(w http.ResponseWriter, r *http.Re
 		now = time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.UTC)
 	}
 
+	data := make(map[string]interface{})
+	data["now"] = now
+
 	next := now.AddDate(0, 1, 0)
 	last := now.AddDate(0, -1, 0)
 
@@ -663,8 +666,63 @@ func (m *Repository) AdminReservationsCalendar(w http.ResponseWriter, r *http.Re
 	stringMap["this_month"] = now.Format("01")
 	stringMap["this_month_year"] = now.Format("2006")
 
+	currentYear, currentMonth, _ := now.Date()
+	currentLocation := now.Location()
+	firstOfMonth := time.Date(currentYear, currentMonth, 1, 0, 0, 0, 0, currentLocation)
+	lastOfMonth := firstOfMonth.AddDate(0, 1, -1)
+
+	intMap := make(map[string]int)
+	intMap["days_in_month"] = lastOfMonth.Day()
+
+	rooms, err := m.DB.AllRooms()
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	data["rooms"] = rooms
+
+	for _, x := range rooms {
+		reservationMap := make(map[string]int)
+		blockMap := make(map[string]int)
+
+		for d := firstOfMonth; d.After(lastOfMonth) == false; d = d.AddDate(0, 0, 1) {
+			dStr := d.Format("2006 01 2")
+			reservationMap[dStr] = 0
+			blockMap[dStr] = 0
+		}
+
+		restrictions, err := m.DB.GetRestrictionForRoomByDate(x.ID, firstOfMonth, lastOfMonth)
+		if err != nil {
+			helpers.ServerError(w, err)
+			return
+		}
+
+		for _, y := range restrictions {
+			if y.ReservationID > 0 {
+				// this is a reservation
+				for d := y.StartDate; d.After(y.EndDate) == false; d = d.AddDate(0, 0, 1) {
+					dStr := d.Format("2006 01 2")
+					reservationMap[dStr] = y.ReservationID
+				}
+
+			} else {
+				dStr := y.StartDate.Format("2006 01 2")
+				blockMap[dStr] = y.RestrictionID
+			}
+		}
+
+		data[fmt.Sprintf("reservationMap_%d", x.ID)] = reservationMap
+		data[fmt.Sprintf("blockMap_%d", x.ID)] = blockMap
+
+		m.App.Session.Put(r.Context(), fmt.Sprintf("reservationMap_%d", x.ID), reservationMap)
+		m.App.Session.Put(r.Context(), fmt.Sprintf("blockMap_%d", x.ID), blockMap)
+	}
+
 	render.Template(w, r, "admin-reservations-calendar.page.tmpl", &models.TemplateData{
+		Data:      data,
 		StringMap: stringMap,
+		IntMap:    intMap,
 	})
 }
 
