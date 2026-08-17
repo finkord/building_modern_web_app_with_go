@@ -687,7 +687,7 @@ func (m *Repository) AdminReservationsCalendar(w http.ResponseWriter, r *http.Re
 		blockMap := make(map[string]int)
 
 		for d := firstOfMonth; d.After(lastOfMonth) == false; d = d.AddDate(0, 0, 1) {
-			dStr := d.Format("2006 01 2")
+			dStr := d.Format("2006-01-2")
 			reservationMap[dStr] = 0
 			blockMap[dStr] = 0
 		}
@@ -702,21 +702,24 @@ func (m *Repository) AdminReservationsCalendar(w http.ResponseWriter, r *http.Re
 			if y.ReservationID > 0 {
 				// this is a reservation
 				for d := y.StartDate; d.After(y.EndDate) == false; d = d.AddDate(0, 0, 1) {
-					dStr := d.Format("2006 01 2")
+					dStr := d.Format("2006-01-2")
 					reservationMap[dStr] = y.ReservationID
 				}
 
 			} else {
-				dStr := y.StartDate.Format("2006 01 2")
-				blockMap[dStr] = y.RestrictionID
+				// block
+				for d := y.StartDate; d.After(y.EndDate) == false; d = d.AddDate(0, 0, 1) {
+					dStr := d.Format("2006-01-2")
+					blockMap[dStr] = y.RestrictionID
+				}
 			}
 		}
 
-		data[fmt.Sprintf("reservationMap_%d", x.ID)] = reservationMap
-		data[fmt.Sprintf("blockMap_%d", x.ID)] = blockMap
+		data[fmt.Sprintf("reservation_map_%d", x.ID)] = reservationMap
+		data[fmt.Sprintf("block_map_%d", x.ID)] = blockMap
 
-		m.App.Session.Put(r.Context(), fmt.Sprintf("reservationMap_%d", x.ID), reservationMap)
-		m.App.Session.Put(r.Context(), fmt.Sprintf("blockMap_%d", x.ID), blockMap)
+		m.App.Session.Put(r.Context(), fmt.Sprintf("reservation_map_%d", x.ID), reservationMap)
+		m.App.Session.Put(r.Context(), fmt.Sprintf("block_map_%d", x.ID), blockMap)
 	}
 
 	render.Template(w, r, "admin-reservations-calendar.page.tmpl", &models.TemplateData{

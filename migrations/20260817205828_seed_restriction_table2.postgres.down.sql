@@ -1,0 +1,1 @@
+delete from restrictions where restrictions_name = 'Tablyat';
