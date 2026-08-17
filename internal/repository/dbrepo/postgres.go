@@ -3,6 +3,7 @@ package dbrepo
 import (
 	"context"
 	"errors"
+	"log"
 	"time"
 
 	"github.com/finkord/building_modern_web_app_with_go/internal/models"
@@ -495,7 +496,7 @@ func (m *postgresDBRepo) GetRestrictionForRoomByDate(roomID int, start, end time
 
 	query := `
 	select id, coalesce(reservations_id, 0), restrictions_id, room_id, start_date, end_date
-	from room_restrictions where $1 < end_date and $2 >= start_date
+	from room_restrictions where $1 <= end_date and $2 >= start_date
 	and room_id = $3`
 
 	rows, err := m.DB.QueryContext(ctx, query, start, end, roomID)
@@ -525,4 +526,37 @@ func (m *postgresDBRepo) GetRestrictionForRoomByDate(roomID int, start, end time
 	}
 
 	return restrictions, nil
+}
+
+// InsertBlockForRoom inserts a block for a room
+func (m *postgresDBRepo) InsertBlockForRoom(id int, startDate time.Time) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := `insert into room_restrictions (start_date, end_date, room_id, restrictions_id, 
+	created_at, updated_at) values ($1, $2, $3, $4, $5, $6)`
+
+	_, err := m.DB.ExecContext(ctx, query, startDate, startDate, id, 2, time.Now(), time.Now())
+	if err != nil {
+		log.Println("error inserting block", err)
+		return err
+	}
+
+	return nil
+}
+
+// DeleteBlockForRoom deletes a room_restriction
+func (m *postgresDBRepo) DeleteBlockByID(id int) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := `delete from room_restrictions where id = $1`
+
+	_, err := m.DB.ExecContext(ctx, query, id)
+	if err != nil {
+		log.Println("error deleting block", err)
+		return err
+	}
+
+	return nil
 }
