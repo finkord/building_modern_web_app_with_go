@@ -306,6 +306,16 @@ func TestPostReservation(t *testing.T) {
 			}
 		}
 
+		if e.name == "invalid-data" {
+			html := rr.Body.String()
+			if !strings.Contains(html, "Arrival: 2050-01-01") {
+				t.Errorf("failed %s: expected to find Arrival date 'Arrival: 2050-01-01' in response HTML but did not", e.name)
+			}
+			if !strings.Contains(html, "Departure: 2050-01-02") {
+				t.Errorf("failed %s: expected to find Departure date 'Departure: 2050-01-02' in response HTML but did not", e.name)
+			}
+		}
+
 	}
 }
 

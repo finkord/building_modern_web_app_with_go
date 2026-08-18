@@ -2,6 +2,8 @@ package main
 
 import (
 	"encoding/gob"
+	"errors"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -63,11 +65,29 @@ func run() (*driver.DB, error) {
 	gob.Register(models.RoomRestriction{})
 	gob.Register(map[string]int{})
 
+	// read flags
+	inProduction := flag.Bool("prod", true, "Application will run in production mode")
+	useCache := flag.Bool("cache", false, "Use template cache")
+	dbName := flag.String("dbname", "bookings", "Database name")
+	dbHost := flag.String("dbhost", "localhost", "Database host")
+	dbUser := flag.String("dbuser", "postgres", "Database user")
+	dbPass := flag.String("dbpassword", "postgres", "Database password")
+	dbPort := flag.String("dbport", "5432", "Database port")
+	dbSSL := flag.String("dbssl", "disable", "Database SSL (disable, prefer, require)")
+
+	flag.Parse()
+
+	if *dbUser == "" || *dbPass == "" {
+		log.Println("Missing required database credentials (-dbuser and -dbpassword)")
+		return nil, errors.New("missing required database credentials")
+	}
+
 	mailChan := make(chan models.MailData)
 	app.MailChan = mailChan
 
 	// Change this to true in production
-	app.InProduction = false
+	app.InProduction = *inProduction
+	app.UseCache = *useCache
 
 	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	app.InfoLog = infoLog
@@ -84,7 +104,10 @@ func run() (*driver.DB, error) {
 	app.Session = session
 
 	log.Println("Connecting to database...")
-	db, err := driver.ConnectSQL("host=localhost port=5432 user=postgres password=postgres dbname=bookings")
+	// build the database connection string
+	// host=localhost port=5432 user=postgres password=postgres dbname=bookings
+	connStr := fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=%s", *dbHost, *dbPort, *dbName, *dbUser, *dbPass, *dbSSL)
+	db, err := driver.ConnectSQL(connStr)
 	if err != nil {
 		log.Fatal("Cannot connect to database", err)
 	}
@@ -99,7 +122,6 @@ func run() (*driver.DB, error) {
 	}
 
 	app.TemplateCache = tc
-	app.UseCache = false
 
 	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)
