@@ -118,6 +118,9 @@ func (m *testDBRepo) UpdateUser(u models.User) error {
 
 // Authenticate checks if the provided email and password are valid
 func (m *testDBRepo) Authenticate(email, password string) (int, string, error) {
+	if email == "jack@nimble.com" {
+		return 0, "", errors.New("invalid credentials")
+	}
 	return 1, "", nil
 }
 
