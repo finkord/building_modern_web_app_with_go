@@ -1,18 +1,40 @@
 {{template "base" .}}
 
 {{define "content"}}
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h1>Choose a Room</h1>
-                
-                {{$rooms := index .Data "rooms"}}
-                <ul>
-                    {{range $rooms}}
-                        <li><a href="/choose-room/{{.ID}}">{{.RoomName}}</a></li>
-                    {{end}}
-                </ul>
+    <div class="container my-5">
+        <div class="row mb-5">
+            <div class="col text-center">
+                <h1 class="display-4 fw-bold mb-3" style="color: #163b65;">Choose a Room</h1>
+                <p class="lead text-secondary">Select your preferred accommodation from the available rooms below.</p>
             </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
+            {{$rooms := index .Data "rooms"}}
+            {{range $rooms}}
+                <div class="col" style="max-width: 480px;">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+                        {{if eq .RoomName "General's Quarters"}}
+                            <img src="/static/images/generals-quarters.png" class="card-img-top" style="height: 240px; object-fit: cover;" alt="General Quarters">
+                        {{else}}
+                            <img src="/static/images/marjors-suite.png" class="card-img-top" style="height: 240px; object-fit: cover;" alt="Major's Suite">
+                        {{end}}
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h3 class="card-title fw-bold h4 mb-3" style="color: #163b65;">{{.RoomName}}</h3>
+                            <p class="card-text text-muted flex-grow-1">
+                                {{if eq .RoomName "General Quarters"}}
+                                    Indulge in maximum space and coastal elegance. Features a king-size bed, private ocean view balcony, and premium amenities.
+                                {{else}}
+                                    Cozy and charming suite featuring a queen-size bed, private deck access, and relaxing seaside breezes.
+                                {{end}}
+                            </p>
+                            <div class="mt-4">
+                                <a href="/choose-room/{{.ID}}" class="btn btn-success w-100 py-2 fw-bold">Select This Room</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{end}}
         </div>
     </div>
 {{end}}

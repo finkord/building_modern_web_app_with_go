@@ -1,12 +1,38 @@
 {{template "base" .}}
 
 {{define "content"}}
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h1>This is the about page</h1>
+    <div class="container my-5">
+        <div class="row align-items-center">
+            <!-- Left Side: Fake Info / Description -->
+            <div class="col-lg-7">
+                <h1 class="display-4 fw-bold mb-4" style="color: #163b65;">About Fort Smythe</h1>
                 
+                <p class="lead text-secondary">
+                    Nestled along the pristine coastline, Fort Smythe Bed and Breakfast has been a sanctuary for travelers seeking comfort, beauty, and history since 1928.
+                </p>
                 
+                <p class="text-muted">
+                    Our historic property combines classic coastal elegance with modern luxury. Founded by the Smythe family, our mission has always been to provide "a home away from home." Every room is carefully designed and curated to showcase panoramic views of the majestic Atlantic Ocean, offering the perfect backdrop for a peaceful getaway.
+                </p>
+                
+                <p class="text-muted mb-4">
+                    Whether you are enjoying a freshly brewed morning coffee on our deck, exploring the scenic seaside paths, or relaxing in our premium suites, our team is dedicated to making your stay unforgettable. Come make memories that will last a lifetime.
+                </p>
+
+                <div class="d-flex gap-3">
+                    <a href="/search-availability" class="btn btn-success px-4 py-2">Book Your Stay</a>
+                    <a href="/contact" class="btn btn-outline-secondary px-4 py-2">Contact Us</a>
+                </div>
+            </div>
+            
+            <!-- Right Side: Beautiful Image -->
+            <div class="col-lg-5 mt-4 mt-lg-0">
+                <div class="position-relative">
+                    <img src="/static/images/outside.png" alt="Fort Smythe Exterior" class="img-fluid rounded shadow-lg w-100" style="object-fit: cover; max-height: 450px;">
+                    <div class="position-absolute bottom-0 end-0 bg-dark bg-opacity-75 text-white px-3 py-2 m-3 rounded">
+                        <small>Fort Smythe B&amp;B</small>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -1,55 +1,70 @@
 {{template "base" .}}
 
 {{define "content"}}
-
-    <div class="container">
-
-
-        <div class="row">
-            <div class="col">
-                <img src="/static/images/generals-quarters.png"
-                     class="img-fluid img-thumbnail mx-auto d-block room-image" alt="room image">
+    <div class="container my-5">
+        <div class="row align-items-center g-5">
+            <!-- Left Side: Room Image -->
+            <div class="col-lg-7">
+                <div class="position-relative">
+                    <img src="/static/images/generals-quarters.png"
+                         class="img-fluid rounded shadow-lg w-100" 
+                         style="object-fit: cover; max-height: 450px;" 
+                         alt="General's Quarters image">
+                    <div class="position-absolute top-0 start-0 bg-success text-white px-3 py-2 m-3 rounded fw-bold">
+                        From $250 / Night
+                    </div>
+                </div>
             </div>
-        </div>
 
-
-        <div class="row">
-            <div class="col">
-                <h1 class="text-center mt-4">General's Quarters</h1>
-                <p>
-                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember.
-                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember.
-                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember.
-                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember.
-                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember.
-                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember.
+            <!-- Right Side: Details & Action -->
+            <div class="col-lg-5">
+                <h1 class="fw-bold mb-3" style="color: #163b65;">General's Quarters</h1>
+                
+                <p class="lead text-secondary mb-4">
+                    Experience royal luxury in our signature suite, designed for those who appreciate history, elegance, and premium comfort.
                 </p>
+
+                <p class="text-muted mb-4">
+                    Your home away from home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to remember. The General's Quarters offers a spacious retreat featuring beautiful classic coastal styling and modern amenities.
+                </p>
+
+                <h5 class="fw-bold mb-3 text-dark">Room Amenities</h5>
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-check2-circle text-success me-2" viewBox="0 0 16 16">
+                            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                        </svg>
+                        King-size Bed with Premium Linens
+                    </li>
+                    <li class="mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-check2-circle text-success me-2" viewBox="0 0 16 16">
+                            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                        </svg>
+                        Panoramic Ocean Views &amp; Private Balcony
+                    </li>
+                    <li class="mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-check2-circle text-success me-2" viewBox="0 0 16 16">
+                            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                        </svg>
+                        Complimentary Gourmet Breakfast
+                    </li>
+                    <li class="mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-check2-circle text-success me-2" viewBox="0 0 16 16">
+                            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                        </svg>
+                        Free High-speed Wi-Fi &amp; Flat Screen TV
+                    </li>
+                </ul>
+
+                <a id="check-availability-button" href="#!" class="btn btn-success px-4 py-2 w-100 w-sm-auto">Check Availability</a>
             </div>
         </div>
-
-
-        <div class="row">
-
-            <div class="col text-center">
-
-                <a id="check-availability-button" href="#!" class="btn btn-success">Check Availability</a>
-
-            </div>
-        </div>
-
-
-
-
     </div>
-
 {{end}}
-
 
 {{define "js"}}
 <script>

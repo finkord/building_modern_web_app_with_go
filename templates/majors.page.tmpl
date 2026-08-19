@@ -1,50 +1,68 @@
 {{template "base" .}}
 
 {{define "content"}}
-    <div class="container">
-
-
-        <div class="row">
-            <div class="col">
-                <img src="/static/images/marjors-suite.png"
-                     class="img-fluid img-thumbnail mx-auto d-block room-image" alt="room image">
+    <div class="container my-5">
+        <div class="row align-items-center g-5">
+            <!-- Left Side: Room Image -->
+            <div class="col-lg-7">
+                <div class="position-relative">
+                    <img src="/static/images/marjors-suite.png"
+                         class="img-fluid rounded shadow-lg w-100" 
+                         style="object-fit: cover; max-height: 450px;" 
+                         alt="Major's Suite image">
+                    <div class="position-absolute top-0 start-0 bg-success text-white px-3 py-2 m-3 rounded fw-bold">
+                        From $200 / Night
+                    </div>
+                </div>
             </div>
-        </div>
 
-
-        <div class="row">
-            <div class="col">
-                <h1 class="text-center mt-4">Major's Suite</h1>
-                <p>
-                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember.
-                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember.
-                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember.
-                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember.
-                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember.
-                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember.
+            <!-- Right Side: Details & Action -->
+            <div class="col-lg-5">
+                <h1 class="fw-bold mb-3" style="color: #163b65;">Major's Suite</h1>
+                
+                <p class="lead text-secondary mb-4">
+                    Indulge in coastal charm and modern comfort. The Major's Suite features cozy furnishings, perfect for pairs or solo travelers.
                 </p>
+
+                <p class="text-muted mb-4">
+                    Your home away from home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to remember. Relax to the sound of crashing waves and enjoy a peaceful atmosphere.
+                </p>
+
+                <h5 class="fw-bold mb-3 text-dark">Room Amenities</h5>
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-check2-circle text-success me-2" viewBox="0 0 16 16">
+                            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                        </svg>
+                        Queen-size Bed with Luxury Sheets
+                    </li>
+                    <li class="mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-check2-circle text-success me-2" viewBox="0 0 16 16">
+                            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                        </svg>
+                        Ocean Breeze Patio Area
+                    </li>
+                    <li class="mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-check2-circle text-success me-2" viewBox="0 0 16 16">
+                            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                        </svg>
+                        Modern En-suite Bathroom
+                    </li>
+                    <li class="mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-check2-circle text-success me-2" viewBox="0 0 16 16">
+                            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                        </svg>
+                        Free High-speed Wi-Fi &amp; Cable TV
+                    </li>
+                </ul>
+
+                <a id="check-availability-button" href="#!" class="btn btn-success px-4 py-2 w-100 w-sm-auto">Check Availability</a>
             </div>
         </div>
-
-
-        <div class="row">
-
-            <div class="col text-center">
-
-                <a id="check-availability-button" href="#!" class="btn btn-success">Check Availability</a>
-
-            </div>
-        </div>
-
-
-
-
     </div>
 {{end}}
 
